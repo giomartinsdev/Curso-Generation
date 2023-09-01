@@ -26,7 +26,5 @@ public class Desafio3 {
         }else {
             System.out.println( name + " está apte para doar sangue!");
         }
-
-
     }
 }
