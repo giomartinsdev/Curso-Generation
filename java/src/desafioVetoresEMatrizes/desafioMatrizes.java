@@ -13,6 +13,8 @@ public class desafioMatrizes {
         //defino a matriz com uma linha(0) e dez colunas(0-9) para guardar o resultado
         double medias[][] = new double[1][10];
 
+        double matrizDeNotas[][] = new double[10][4];
+
         //para cada coluna da matriz (10) rode o codigo.
         for (int c = 0; c < 10; c++) {
             //nesse trecho eu insiro as notas nas variaveis notasN usando double para guardar . flutuante
@@ -43,6 +45,12 @@ public class desafioMatrizes {
                 System.out.println("A nota precisa ser um valor menor que dez! corrija o numero: ");
                 nota4 = scan.nextDouble();
             }
+
+            //salvo todas as notas na matriz de notas utilizando a coluna de iteração acima do for.
+            matrizDeNotas[c][0] = nota1;
+            matrizDeNotas[c][1] = nota2;
+            matrizDeNotas[c][2] = nota3;
+            matrizDeNotas[c][3] = nota4;
 
             //aqui eu pego e calculo a media
             double media = (nota1 + nota2 + nota3 + nota4) / 4;
