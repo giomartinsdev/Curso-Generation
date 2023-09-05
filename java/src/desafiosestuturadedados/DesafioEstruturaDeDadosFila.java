@@ -24,7 +24,8 @@ public class DesafioEstruturaDeDadosFila {
             switch (menuInput) {
                 case 1:
                     System.out.println("Entre com o nome da pessoa para entrar na fila:");
-                    String nome = scan.next();
+                    scan.nextLine();
+                    String nome = scan.nextLine();
                     fila.add(nome);
                     System.out.println("Cliente Adicionado!");
                     break;

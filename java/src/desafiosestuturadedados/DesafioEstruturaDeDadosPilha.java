@@ -23,7 +23,8 @@ public class DesafioEstruturaDeDadosPilha {
             switch (menuInput) {
                 case 1:
                     System.out.println("Entre com o nome do livro:");
-                    String livro = scan.next();
+                    scan.nextLine();
+                    String livro = scan.nextLine();
                     stack.push(livro);
                     System.out.println("Livro Adicionado!");
                     break;
