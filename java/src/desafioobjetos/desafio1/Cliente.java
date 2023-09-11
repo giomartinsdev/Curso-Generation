@@ -63,6 +63,6 @@ public class Cliente {
         System.out.println("Telefone do cliente: (21)"+getTelefone());
         System.out.println("Email do cliente: "+getEmail());
         System.out.println("Localidade do cliente: "+getLocalidade());
+        System.out.println("\n");
     }
-
 }

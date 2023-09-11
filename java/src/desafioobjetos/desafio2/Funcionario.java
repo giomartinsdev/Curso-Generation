@@ -58,11 +58,13 @@ public class Funcionario {
     }
 
     public void visualizar(){
+        System.out.println("--------------------------");
         System.out.println("Nome do funcionario: "+getNome());
         System.out.println("Sobrenome do funcionario: "+getSobrenome());
         System.out.println("Telefone do funcionario: (21)"+getTelefone());
         System.out.println("Cargo do funcionario: "+getCargo());
         System.out.println("Salario do funcionario: "+getSalario());
+        System.out.print("\n");
     }
 
 }
