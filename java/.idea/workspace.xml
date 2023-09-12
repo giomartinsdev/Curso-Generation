@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2307baad-968d-4765-9fe1-b931489da362" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio1/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/desafioobjetos/desafio1/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio1/TestaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/desafioobjetos/desafio1/TestaCliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio2/Funcionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/desafioobjetos/desafio2/Funcionario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio2/TestaFuncionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/desafioobjetos/desafio2/TestaFuncionario.java" afterDir="false" />
     </list>
@@ -47,10 +45,13 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;/home/usuario/Documentos/Cursos/Curso-Generation/java/src/Main.java&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor.code.editing&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.folding&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="2307baad-968d-4765-9fe1-b931489da362" name="Changes" comment="" />

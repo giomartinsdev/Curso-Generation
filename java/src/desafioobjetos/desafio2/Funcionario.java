@@ -13,7 +13,18 @@ public class Funcionario {
 
 
     //------------------------------------------------------------------------------------------------------------
-    //---------------------------------------METODOS SETTERS E GETTERS --------------------------------------------------
+    //-------------------------------------------- CONSTRUTOR ----------------------------------------------------
+    public Funcionario(String nome, String sobrenome, Integer telefone, String cargo, Double salario) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.telefone = telefone;
+        this.cargo = cargo;
+        this.salario = salario;
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------
+    //---------------------------------------METODOS SETTERS E GETTERS -------------------------------------------
 
     public String getNome() {
         return nome;
@@ -47,15 +58,7 @@ public class Funcionario {
     }
 
     //------------------------------------------------------------------------------------------------------------
-    //---------------------------------------METODOS FUNCIONAIS --------------------------------------------------
-
-    public Funcionario(String nome, String sobrenome, Integer telefone, String cargo, Double salario) {
-        setNome(nome);
-        setSobrenome(sobrenome);
-        setTelefone(telefone);
-        setCargo(cargo);
-        setSalario(salario);
-    }
+    //----------------------------------------- VISUALIZADOR -----------------------------------------------------
 
     public void visualizar(){
         System.out.println("--------------------------");
@@ -64,7 +67,6 @@ public class Funcionario {
         System.out.println("Telefone do funcionario: (21)"+getTelefone());
         System.out.println("Cargo do funcionario: "+getCargo());
         System.out.println("Salario do funcionario: "+getSalario());
-        System.out.print("\n");
     }
 
 }
