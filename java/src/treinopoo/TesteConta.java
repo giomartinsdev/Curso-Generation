@@ -71,11 +71,11 @@ public class TesteConta {
                     break;
                 case 4:
                     System.out.println("Hi! " + account.getOwnerName() + " Your DATA with us is: "
-                    + "\n Email: " + account.getEmail()
-                    + "\n Name: " + account.getOwnerName()
-                    + "\n Balance: " + account.getBalance()
-                    + "\n Ssn: " + account.getSsn()
-                    + "\n Pass: " + account.getPass()
+                            + "\n Email: " + account.getEmail()
+                            + "\n Name: " + account.getOwnerName()
+                            + "\n Balance: " + account.getBalance()
+                            + "\n Ssn: " + account.getSsn()
+                            + "\n Pass: " + account.getPass()
 
                     );
                     break;

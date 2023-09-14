@@ -11,19 +11,19 @@ public class Desafio4 {
         System.out.println("digite se é invertebrado ou vertebrado: \n");
         String vertebraeOfAnimal = reader.next();
 
-        System.out.println("digite se é mamifero, ave, inseto ou anelideo: \n");
+        System.out.println("digite se é Mamifero, ave, inseto ou anelideo: \n");
         String typeOfAnimal = reader.next();
 
-        System.out.println("digite se o animal é carnivero, onivoro, herbivoro ou hemafago: \n");
+        System.out.println("digite se o Mamifero é carnivero, onivoro, herbivoro ou hemafago: \n");
         String eatOfAnimal = reader.next();
 
         // Começa a estrutura de seleção usando switch
         switch (vertebraeOfAnimal) {
             case "vertebrado":
-                // Caso o animal seja vertebrado
+                // Caso o Mamifero seja vertebrado
                 switch (typeOfAnimal) {
                     case "ave":
-                        // Caso o animal seja ave
+                        // Caso o Mamifero seja ave
                         switch (eatOfAnimal) {
                             case "carnivoro":
                                 System.out.println("aguia"); // Saída para águia
@@ -35,8 +35,8 @@ public class Desafio4 {
                                 System.out.println("por favor insira carnivoro ou onivoro");
                         }
                         break;
-                    case "mamifero":
-                        // Caso o animal seja mamífero
+                    case "Mamifero":
+                        // Caso o Mamifero seja mamífero
                         switch (eatOfAnimal) {
                             case "onivoro":
                                 System.out.println("homem"); // Saída para homem
@@ -49,14 +49,14 @@ public class Desafio4 {
                         }
                         break;
                     default:
-                        System.out.println("por favor insira ave ou mamifero");
+                        System.out.println("por favor insira ave ou Mamifero");
                 }
                 break;
             case "invertebrado":
-                // Caso o animal seja invertebrado
+                // Caso o Mamifero seja invertebrado
                 switch (typeOfAnimal) {
                     case "inseto":
-                        // Caso o animal seja inseto
+                        // Caso o Mamifero seja inseto
                         switch (eatOfAnimal) {
                             case "hematofago":
                                 System.out.println("pulga"); // Saída para pulga
@@ -69,7 +69,7 @@ public class Desafio4 {
                         }
                         break;
                     case "anelideo":
-                        // Caso o animal seja anelídeo (adicionado no comentário para correção)
+                        // Caso o Mamifero seja anelídeo (adicionado no comentário para correção)
                         switch (eatOfAnimal) {
                             case "hematofago":
                                 System.out.println("sanguessuga"); // Saída para sanguessuga
