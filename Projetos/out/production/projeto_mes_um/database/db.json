@@ -1,0 +1,24 @@
+[
+  {
+    "public_info":{
+      "surname":"Panço",
+      "name":"Hélio",
+      "age":27
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"ksj172"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"de Souza",
+      "name":"Larissa",
+      "age":19
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"laris213"
+    }
+  }
+]
