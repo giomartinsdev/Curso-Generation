@@ -1,14 +1,15 @@
 import methods.AddClientOnDb;
+import methods.Client;
 import methods.User;
 import org.json.simple.JSONObject;
 
-import java.util.Scanner;
+import java.util.*;
 
-public class Main {
+public class Main extends Client {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        User user = null;
+        User user = null; // Inicializa um objeto "User" que será usado para representar o usuário logado
 
         boolean loginMenu = true;
         while (loginMenu) {
@@ -23,13 +24,32 @@ public class Main {
             int loginMenuInput = scan.nextInt();
             switch (loginMenuInput) {
                 case (1):
-                    // Assuming login logic here
-                    // For now, let's set a default user for testing
-                    user = new User("Elias", "Klein", 19, 200.22, "elias123");
+                    // Realiza o login
+                    System.out.println("******************** LOGIN PLATFORM ********************");
+                    System.out.println("Please insert you name: ");
+                    scan.nextLine();
+                    String nameForLogin = scan.nextLine();
+                    System.out.println("Please insert you pass: ");
+                    String passForLogin = scan.nextLine();
+                    JSONObject clienteEncontrado = LoginMethod(nameForLogin, passForLogin);
+
+                    if (clienteEncontrado != null) {
+                        // Extraia as informações do cliente e crie um novo usuário
+                        JSONObject publicInfo = (JSONObject) clienteEncontrado.get("public_info");
+                        JSONObject privateInfo = (JSONObject) clienteEncontrado.get("private_info");
+
+                        String name = (String) publicInfo.get("name");
+                        String surname = (String) publicInfo.get("surname");
+                        String age = publicInfo.get("age").toString();
+                        double balance = (double) privateInfo.get("balance");
+                        String pass = (String) privateInfo.get("pass");
+
+                        user = new User(name, surname, age, balance, pass);
+                    }
                     loginMenu = false;
                     break;
-
                 case (2):
+                    // Registra um novo cliente
                     System.out.println("Insert your first name: ");
                     scan.nextLine();
                     String name = scan.nextLine();
@@ -38,9 +58,9 @@ public class Main {
                     String surname = scan.nextLine();
 
                     System.out.println("Insert your age: ");
-                    int age = scan.nextInt();
+                    String age = scan.nextLine();
 
-                    float balance = 0.00F;
+                    float balance = 0.00F; // O saldo é inicializado com 0.00F
 
                     System.out.println("Insert pass: ");
                     scan.nextLine();
@@ -72,9 +92,8 @@ public class Main {
 
                     loginMenu = false;
                     break;
-
                 default:
-                    System.out.println("Numero Invalido");
+                    System.out.println("Invalid option");
                     break;
             }
         }
@@ -117,11 +136,24 @@ public class Main {
                     break;
                 case 5:
                     //printar infos
-                    // Use o método toString() para imprimir os detalhes do usuário
-                    System.out.println(user);
+                    System.out.println("Your data in our database is(name, surname, age, pass): ");
+
+                    //criar uma collection arraylist para poder mostrar os dados do usuario
+                    ArrayList<String> infos = new ArrayList<>();
+                    //adiciona os dados na arralist utilizando os getters
+                    infos.add(user.getName());
+                    infos.add(user.getSurname());
+                    infos.add(user.getAge());
+                    infos.add(user.getPass());
+
+                    //utiliza um iterator pra percorrer a lista printando o dado
+                    Iterator<String> isetIterator = infos.iterator();
+                    while(isetIterator.hasNext()){
+                        System.out.println(isetIterator.next());
+                    }
                     break;
                 case 0:
-                    System.out.println("Saindo da aplicação");
+                    System.out.println("Exiting the application");
                     optionsMenu = false;
                     break;
                 default:

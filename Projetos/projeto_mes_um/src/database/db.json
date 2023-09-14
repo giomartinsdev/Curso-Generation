@@ -31,5 +31,16 @@
       "balance":0.0,
       "pass":"gio123"
     }
+  },
+  {
+    "public_info":{
+      "surname":"théo",
+      "name":"Jorge",
+      "age":45
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"jorge123"
+    }
   }
 ]
