@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2307baad-968d-4765-9fe1-b931489da362" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Projetos/out/production/projeto_mes_um/database/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Projetos/out/production/projeto_mes_um/database/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/database/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/database/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/methods/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/methods/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/methods/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Projetos/projeto_mes_um/src/methods/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio1/Cliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/desafioobjetos/desafio1/TestaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/desafioobjetos/desafio1/TestaCliente.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DarkyenusTimeTracker">
+    <option name="totalTimeSeconds" value="43519" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
