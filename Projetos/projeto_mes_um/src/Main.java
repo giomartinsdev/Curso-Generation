@@ -54,6 +54,7 @@ public class Main extends Client {
                             break;
                         }
                     }
+//                    break;
                 case (2):
                     // Registra um novo cliente
                     System.out.println("Insert your first name: ");
@@ -69,7 +70,6 @@ public class Main extends Client {
                     float balance = 0.00F; // O saldo é inicializado com 0.00F
 
                     System.out.println("Insert pass: ");
-                    scan.nextLine();
                     String pass = scan.nextLine();
 
                     // Criando um novo objeto JSON para o novo cliente
@@ -116,7 +116,7 @@ public class Main extends Client {
             switch (optionsMenuInput) {
                 case 1:
                     // Show acc balance
-                    System.out.println("Hi! " + user.getName() + " Your balance is: "+ user.seeBalance()+"$");
+                    System.out.println("Hi! " + user.getName() + " Your balance is: " + SeeBalance(user.getName()) +"$");
                     break;
                 case 2:
                     // Make a Deposit
@@ -124,7 +124,7 @@ public class Main extends Client {
                     double balanceToPut = scan.nextDouble();
                     boolean depositSuccess = Deposit(user.getName(), balanceToPut);
                     if (depositSuccess) {
-                        System.out.println("Your Balance has an update of " + balanceToPut +" the new balance is: "+ (user.getBalance() + balanceToPut)+"$");
+                        System.out.println("Your Balance has an update of " + balanceToPut +" the new balance is: "+ SeeBalance(user.getName()) +"$");
                     } else {
                         System.out.println("Failed to update balance. User not found.");
                     }
@@ -135,14 +135,25 @@ public class Main extends Client {
                     double balanceToBeRemoved = scan.nextDouble();
 
                     // Logic of withdraws where are higher than the balance
-                    if (user.withdraw(balanceToBeRemoved) == 0.0){
-                        System.out.println("The value of " + balanceToBeRemoved + " is higher than your balance ");
+                    if (Withdraw(user.getName(),balanceToBeRemoved)){
+                        System.out.println("Your Balance has an update of " + balanceToBeRemoved +" the new balance is: "+ SeeBalance(user.getName()) +"$");
                     }else{
-                        System.out.println("Your Balance has an update of " + balanceToBeRemoved +" the new balance is: "+ user.getBalance());
+                        System.out.println("The value of " + balanceToBeRemoved + " is higher than your balance ");
                     }
                     break;
                 case 4:
-                    // Code.
+                    // Make a withdraw
+                    System.out.println("Input the name of account target owner: ");
+                    scan.nextLine();
+                    String nameTarget = scan.nextLine();
+                    System.out.println("Input the amount of the transfer: ");
+                    Double amount = scan.nextDouble();
+                    if (Transfer(nameTarget, user.getName(),amount)){
+                        System.out.println("Transfer done sucesfully!");
+
+                    }else {
+                        System.out.println("An error as happened, please re-do the transfer.");
+                    }
                     break;
                 case 5:
                     // Printar infos

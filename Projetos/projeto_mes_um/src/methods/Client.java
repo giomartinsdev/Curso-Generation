@@ -11,16 +11,14 @@ import java.io.IOException;
 
 public abstract class Client implements DefaultMethods {
 
-    //------------------------------------------------------------------------------------------------------------//
-    //atributs
+    //------------------------------------------//atributs//-----------------------------------------------------//
     private String name;
     private String surname;
     private String age;
     private double balance;
     private String pass;
 
-    //------------------------------------------------------------------------------------------------------------//
-    //getters and setters
+    //----------------------------------//getters and setters methods//-----------------------------------------//
     public String getName() {
         return name;
     }
@@ -66,8 +64,8 @@ public abstract class Client implements DefaultMethods {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------//
-    //Balance Methods//
+    //------------------------------------------//Balance methods//-----------------------------------------------------//
+
 
     public static boolean Deposit(String nome, double amount) {
         JSONParser parser = new JSONParser();
@@ -106,7 +104,6 @@ public abstract class Client implements DefaultMethods {
                     String formattedJson = formatJson(clientes.toString());
                     file.write(formattedJson);
                     file.flush();
-                    System.out.println("Successfully updated balance in the JSON file!");
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -118,22 +115,96 @@ public abstract class Client implements DefaultMethods {
 
         return false; // Retorna false se o cliente não for encontrado
     }
-    public double withdraw(Double amount){
-        //logic of withdraws where are higher than the balance
-        if (this.balance > amount){
-            this.balance = this.balance - amount;
-            return this.balance;
-        }else {
-            return 0.0;
+    public static boolean Withdraw(String nome, double amount) {
+        JSONParser parser = new JSONParser();
+
+        try {
+            String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+
+            // Encontra o cliente pelo nome
+            JSONObject cliente = FindClient(caminhoCompleto, nome);
+
+            if (cliente != null) {
+                // Atualiza o saldo
+                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
+                Double balance = (Double) privateInfo.get("balance");
+                double newBalance = balance - amount;
+                if (amount > balance){
+                    return false;
+                }
+                privateInfo.put("balance", newBalance);
+
+                // Lê o conteúdo atual do arquivo JSON
+                Object obj = parser.parse(new FileReader(caminhoCompleto));
+                JSONArray clientes = (JSONArray) obj;
+
+                // Atualiza os dados do cliente em questão
+                for (Object clienteObj : clientes) {
+                    JSONObject clienteAtual = (JSONObject) clienteObj;
+                    JSONObject publicInfo = (JSONObject) clienteAtual.get("public_info");
+                    String nomeCliente = (String) publicInfo.get("name");
+
+                    if (nomeCliente.equalsIgnoreCase(nome)) {
+                        clienteAtual.put("private_info", privateInfo);
+                        break;
+                    }
+                }
+
+                // Salva o conteúdo atualizado de volta no arquivo JSON
+                try (FileWriter file = new FileWriter(caminhoCompleto)) {
+                    String formattedJson = formatJson(clientes.toString());
+                    file.write(formattedJson);
+                    file.flush();
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
         }
+
+        return false; // Retorna false se o cliente não for encontrado
     }
-    public void transfer(Integer accountTargetId, Double amount){}
-    public double seeBalance(){
-        return this.balance;
+    public static boolean Transfer(String nomeTarget, String nomeUsu, Double amount) {
+        String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+
+        // Encontrar os dois clientes
+        JSONObject cliente = FindClient(caminhoCompleto, nomeUsu );
+        JSONObject clienteTarget = FindClient(caminhoCompleto, nomeTarget );
+
+        if (cliente != null) {
+            if (clienteTarget != null){
+                // Atualiza o saldo
+                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
+//                JSONObject privateInfoOfTarget = (JSONObject) clienteTarget.get("private_info");
+                Double balance = (Double) privateInfo.get("balance");
+//                Double balanceOfTarget = (Double) privateInfoOfTarget.get("balance");
+
+                if (amount < balance){
+                    Withdraw(nomeUsu, amount);
+                    Deposit(nomeTarget, amount);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static double SeeBalance(String nome) {
+        String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+
+        // Encontra o cliente pelo nome
+        JSONObject cliente = FindClient(caminhoCompleto, nome);
+        if (cliente != null) {
+            // Atualiza o saldo
+            JSONObject privateInfo = (JSONObject) cliente.get("private_info");
+            Double balance = (Double) privateInfo.get("balance");
+            return balance;
+        }
+        return 0.0;
     }
 
-    //------------------------------------------------------------------------------------------------------------//
-    //Clients methods//
+    //------------------------------------------//Client methods//-----------------------------------------------------//
     @Override
     public String toString() {
         return """
@@ -189,8 +260,8 @@ public abstract class Client implements DefaultMethods {
         return client;
     }
 
-    //------------------------------------------------------------------------------------------------------------//
-    //JSON methods//
+    //------------------------------------------//JSON methods//-----------------------------------------------------//
+
     public static String formatJson(String json) {
         int level = 0;
         StringBuilder formattedJson = new StringBuilder();
@@ -221,4 +292,3 @@ public abstract class Client implements DefaultMethods {
         }
     }
 }
-

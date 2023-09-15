@@ -28,7 +28,7 @@
       "age":18
     },
     "private_info":{
-      "balance":15.0,
+      "balance":1.0,
       "pass":"gio123"
     }
   },
@@ -41,6 +41,28 @@
     "private_info":{
       "balance":0.0,
       "pass":"jorge123"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Thimoteo",
+      "name":"FLávio",
+      "age":"25"
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"flaviodoisdois"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Machado",
+      "name":"Cleber",
+      "age":"54"
+    },
+    "private_info":{
+      "balance":90.0,
+      "pass":"cl23"
     }
   }
 ]
