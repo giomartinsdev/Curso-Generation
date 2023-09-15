@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 // Classe que contém o método para adicionar o cliente no arquivo JSON
-public class AddClientOnDb {
+public class AddClientOnDb extends Client {
 
     // Método para adicionar o cliente na DB JSON
     @SuppressWarnings("unchecked")
@@ -58,36 +58,4 @@ public class AddClientOnDb {
         }
     }
 
-
-    // ----------------------------------- Formatação do codigo ----------------------------------- //
-    // Método para formatar o JSON com espaços de indentação
-    private static String formatJson(String json) {
-        int level = 0;
-        StringBuilder formattedJson = new StringBuilder();
-        for (char c : json.toCharArray()) {
-            if (c == '[' || c == '{') {
-                formattedJson.append(c).append("\n");
-                level++;
-                appendSpaces(formattedJson, level);
-            } else if (c == ']' || c == '}') {
-                formattedJson.append("\n");
-                level--;
-                appendSpaces(formattedJson, level);
-                formattedJson.append(c);
-            } else if (c == ',') {
-                formattedJson.append(c).append("\n");
-                appendSpaces(formattedJson, level);
-            } else {
-                formattedJson.append(c);
-            }
-        }
-        return formattedJson.toString();
-    }
-
-    // Método para adicionar espaços de indentação JSON
-    private static void appendSpaces(StringBuilder sb, int count) {
-        for (int i = 0; i < count; i++) {
-            sb.append("  "); // Dois espaços por nível de indentação
-        }
-    }
 }

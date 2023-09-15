@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public abstract class Client implements DefaultMethods {
@@ -67,8 +68,55 @@ public abstract class Client implements DefaultMethods {
 
     //------------------------------------------------------------------------------------------------------------//
     //Balance Methods//
-    public void deposit(Double amount){
-        this.balance = this.balance + amount;
+
+    public static boolean Deposit(String nome, double amount) {
+        JSONParser parser = new JSONParser();
+
+        try {
+            String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+
+            // Encontra o cliente pelo nome
+            JSONObject cliente = FindClient(caminhoCompleto, nome);
+
+            if (cliente != null) {
+                // Atualiza o saldo
+                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
+                Double balance = (Double) privateInfo.get("balance");
+                double newBalance = balance + amount;
+                privateInfo.put("balance", newBalance);
+
+                // Lê o conteúdo atual do arquivo JSON
+                Object obj = parser.parse(new FileReader(caminhoCompleto));
+                JSONArray clientes = (JSONArray) obj;
+
+                // Atualiza os dados do cliente em questão
+                for (Object clienteObj : clientes) {
+                    JSONObject clienteAtual = (JSONObject) clienteObj;
+                    JSONObject publicInfo = (JSONObject) clienteAtual.get("public_info");
+                    String nomeCliente = (String) publicInfo.get("name");
+
+                    if (nomeCliente.equalsIgnoreCase(nome)) {
+                        clienteAtual.put("private_info", privateInfo);
+                        break;
+                    }
+                }
+
+                // Salva o conteúdo atualizado de volta no arquivo JSON
+                try (FileWriter file = new FileWriter(caminhoCompleto)) {
+                    String formattedJson = formatJson(clientes.toString());
+                    file.write(formattedJson);
+                    file.flush();
+                    System.out.println("Successfully updated balance in the JSON file!");
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Retorna false se o cliente não for encontrado
     }
     public double withdraw(Double amount){
         //logic of withdraws where are higher than the balance
@@ -137,7 +185,40 @@ public abstract class Client implements DefaultMethods {
     }
 
     public static JSONObject LoginMethod(String name, String pass){
-        return FindClient("projeto_mes_um/src/database/db.json", name);
+        JSONObject client = FindClient("projeto_mes_um/src/database/db.json", name);
+        return client;
     }
 
+    //------------------------------------------------------------------------------------------------------------//
+    //JSON methods//
+    public static String formatJson(String json) {
+        int level = 0;
+        StringBuilder formattedJson = new StringBuilder();
+        for (char c : json.toCharArray()) {
+            if (c == '[' || c == '{') {
+                formattedJson.append(c).append("\n");
+                level++;
+                appendSpaces(formattedJson, level);
+            } else if (c == ']' || c == '}') {
+                formattedJson.append("\n");
+                level--;
+                appendSpaces(formattedJson, level);
+                formattedJson.append(c);
+            } else if (c == ',') {
+                formattedJson.append(c).append("\n");
+                appendSpaces(formattedJson, level);
+            } else {
+                formattedJson.append(c);
+            }
+        }
+        return formattedJson.toString();
+    }
+
+    // Método para adicionar espaços de indentação JSON
+    public static void appendSpaces(StringBuilder sb, int count) {
+        for (int i = 0; i < count; i++) {
+            sb.append("  "); // Dois espaços por nível de indentação
+        }
+    }
 }
+

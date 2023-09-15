@@ -34,6 +34,7 @@ public class Main extends Client {
                     JSONObject clienteEncontrado = LoginMethod(nameForLogin, passForLogin);
 
                     if (clienteEncontrado != null) {
+
                         // Extraia as informações do cliente e crie um novo usuário
                         JSONObject publicInfo = (JSONObject) clienteEncontrado.get("public_info");
                         JSONObject privateInfo = (JSONObject) clienteEncontrado.get("private_info");
@@ -43,11 +44,16 @@ public class Main extends Client {
                         String age = publicInfo.get("age").toString();
                         double balance = (double) privateInfo.get("balance");
                         String pass = (String) privateInfo.get("pass");
-
-                        user = new User(name, surname, age, balance, pass);
+                        if (passForLogin.equals(pass)){
+                            user = new User(name, surname, age, balance, pass);
+                            loginMenu = false;
+                            break;
+                        }
+                        else{
+                            System.out.println("A senha que você digitou está errada, faça login novamente.");
+                            break;
+                        }
                     }
-                    loginMenu = false;
-                    break;
                 case (2):
                     // Registra um novo cliente
                     System.out.println("Insert your first name: ");
@@ -69,20 +75,20 @@ public class Main extends Client {
                     // Criando um novo objeto JSON para o novo cliente
                     JSONObject novoCliente = new JSONObject();
 
-                    //criando o obj publicInfo
+                    // Criando o obj publicInfo
                     JSONObject publicInfo = new JSONObject();
-                    //inserindo as variaveis na correspondencia obj do publicjson
+                    // Inserindo as variaveis na correspondencia obj do publicjson
                     publicInfo.put("name", name);
                     publicInfo.put("surname", surname);
                     publicInfo.put("age", age);
 
-                    //crirando o obj privateInfo
+                    // Crirando o obj privateInfo
                     JSONObject privateInfo = new JSONObject();
-                    //inserindo as variaveis na correspondencia do obj privatejson
+                    // Inserindo as variaveis na correspondencia do obj privatejson
                     privateInfo.put("balance", balance);
                     privateInfo.put("pass", pass);
 
-                    //inserindo as duas no OBJETO novo cliente
+                    // Inserindo as duas no OBJETO novo cliente
                     novoCliente.put("public_info", publicInfo);
                     novoCliente.put("private_info", privateInfo);
 
@@ -98,7 +104,7 @@ public class Main extends Client {
             }
         }
 
-        //logged menu
+        // Logged menu
         boolean optionsMenu = true;
         while (optionsMenu) {
             System.out.println("**************** Hello! "+ user.getName()+" ******************");
@@ -106,25 +112,29 @@ public class Main extends Client {
             System.out.println("************** Select an option ******************");
             int optionsMenuInput = scan.nextInt();
 
-            //options
+            // Options
             switch (optionsMenuInput) {
                 case 1:
-                    //show acc balance
+                    // Show acc balance
                     System.out.println("Hi! " + user.getName() + " Your balance is: "+ user.seeBalance()+"$");
                     break;
                 case 2:
-                    //make a deposit
+                    // Make a Deposit
                     System.out.println("Input an value to be added: ");
                     double balanceToPut = scan.nextDouble();
-                    user.deposit(balanceToPut);
-                    System.out.println("Your Balance has an update of " + balanceToPut +" the new balance is: "+ user.getBalance()+"$");
+                    boolean depositSuccess = Deposit(user.getName(), balanceToPut);
+                    if (depositSuccess) {
+                        System.out.println("Your Balance has an update of " + balanceToPut +" the new balance is: "+ (user.getBalance() + balanceToPut)+"$");
+                    } else {
+                        System.out.println("Failed to update balance. User not found.");
+                    }
                     break;
                 case 3:
-                    //make a withdraw
+                    // Make a withdraw
                     System.out.println("Input an value to be removed: ");
                     double balanceToBeRemoved = scan.nextDouble();
 
-                    //logic of withdraws where are higher than the balance
+                    // Logic of withdraws where are higher than the balance
                     if (user.withdraw(balanceToBeRemoved) == 0.0){
                         System.out.println("The value of " + balanceToBeRemoved + " is higher than your balance ");
                     }else{
@@ -132,21 +142,21 @@ public class Main extends Client {
                     }
                     break;
                 case 4:
-                    //code.
+                    // Code.
                     break;
                 case 5:
-                    //printar infos
+                    // Printar infos
                     System.out.println("Your data in our database is(name, surname, age, pass): ");
 
-                    //criar uma collection arraylist para poder mostrar os dados do usuario
+                    // Criar uma collection arraylist para poder mostrar os dados do usuario
                     ArrayList<String> infos = new ArrayList<>();
-                    //adiciona os dados na arralist utilizando os getters
+                    // Adiciona os dados na arralist utilizando os getters
                     infos.add(user.getName());
                     infos.add(user.getSurname());
                     infos.add(user.getAge());
                     infos.add(user.getPass());
 
-                    //utiliza um iterator pra percorrer a lista printando o dado
+                    // Utiliza um iterator pra percorrer a lista printando o dado
                     Iterator<String> isetIterator = infos.iterator();
                     while(isetIterator.hasNext()){
                         System.out.println(isetIterator.next());
