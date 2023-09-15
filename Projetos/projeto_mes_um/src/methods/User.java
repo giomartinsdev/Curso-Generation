@@ -1,14 +1,10 @@
 package methods;
 
-import org.json.simple.JSONObject;
-
-public class User extends Client {
-    //constructor
-    public User(String name, String surname, String age, double balance, String pass) {
-        super(name, surname, age, balance, pass);
+public class User extends Client{
+    public User(String name, String surname, String age, double balance, String password) {
+        super(name, surname, age, balance, password);
     }
-    public User(JSONObject jsonObject) {
 
+    public User() {
     }
 }
-

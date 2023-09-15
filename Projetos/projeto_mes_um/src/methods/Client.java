@@ -3,105 +3,106 @@ package methods;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// Classe abstrata Client implements an interface DefaultMethods
 public abstract class Client implements DefaultMethods {
 
-    //------------------------------------------//atributs//-----------------------------------------------------//
+    // Atributos da classe
     private String name;
     private String surname;
     private String age;
     private double balance;
-    private String pass;
+    private String password;
 
-    //----------------------------------//getters and setters methods//-----------------------------------------//
+    // Construtores da classe
+    public Client(String name, String surname, String age, double balance, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.balance = balance;
+        this.password = password;
+    }
+
+    public Client() {
+    }
+
+    // Getters e Setters dos atributos
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getSurname() {
         return surname;
     }
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
     public String getAge() {
         return age;
     }
+
     public void setAge(String age) {
         this.age = age;
     }
+
     public double getBalance() {
         return balance;
     }
+
     public void setBalance(double balance) {
         this.balance = balance;
     }
-    public String getPass() {
-        return pass;
-    }
-    public void setPass(String pass) {
-        this.pass = pass;
+
+    public String getPassword() {
+        return password;
     }
 
-
-    //constructor
-    public Client(String name, String surname, String age, double balance, String pass) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.balance = balance;
-        this.pass = pass;
-    }
-    public  Client(){
-
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 
-    //------------------------------------------//Balance methods//-----------------------------------------------------//
-
-
-    public static boolean Deposit(String nome, double amount) {
+    // Implementação dos métodos relacionados ao balanço
+    @Override
+    public boolean deposit(String customerName, double amount) {
         JSONParser parser = new JSONParser();
 
         try {
-            String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+            String fullPath = "projeto_mes_um/src/database/db.json";
+            JSONObject client = findClient(fullPath, name);
 
-            // Encontra o cliente pelo nome
-            JSONObject cliente = FindClient(caminhoCompleto, nome);
-
-            if (cliente != null) {
-                // Atualiza o saldo
-                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
-                Double balance = (Double) privateInfo.get("balance");
-                double newBalance = balance + amount;
+            if (client != null) {
+                JSONObject privateInfo = (JSONObject) client.get("private_info");
+                double currentBalance = (double) privateInfo.get("balance");
+                double newBalance = currentBalance + amount;
                 privateInfo.put("balance", newBalance);
 
-                // Lê o conteúdo atual do arquivo JSON
-                Object obj = parser.parse(new FileReader(caminhoCompleto));
-                JSONArray clientes = (JSONArray) obj;
+                Object obj = parser.parse(new FileReader(fullPath));
+                JSONArray clients = (JSONArray) obj;
 
-                // Atualiza os dados do cliente em questão
-                for (Object clienteObj : clientes) {
-                    JSONObject clienteAtual = (JSONObject) clienteObj;
-                    JSONObject publicInfo = (JSONObject) clienteAtual.get("public_info");
-                    String nomeCliente = (String) publicInfo.get("name");
+                for (Object clientObj : clients) {
+                    JSONObject currentClient = (JSONObject) clientObj;
+                    JSONObject publicInfo = (JSONObject) currentClient.get("public_info");
+                    String clientName = (String) publicInfo.get("name");
 
-                    if (nomeCliente.equalsIgnoreCase(nome)) {
-                        clienteAtual.put("private_info", privateInfo);
+                    if (clientName.equalsIgnoreCase(name)) {
+                        currentClient.put("private_info", privateInfo);
                         break;
                     }
                 }
 
-                // Salva o conteúdo atualizado de volta no arquivo JSON
-                try (FileWriter file = new FileWriter(caminhoCompleto)) {
-                    String formattedJson = formatJson(clientes.toString());
+                try (FileWriter file = new FileWriter(fullPath)) {
+                    String formattedJson = formatJson(clients.toString());
                     file.write(formattedJson);
                     file.flush();
                     return true;
@@ -113,155 +114,170 @@ public abstract class Client implements DefaultMethods {
             e.printStackTrace();
         }
 
-        return false; // Retorna false se o cliente não for encontrado
+        return false;
     }
-    public static boolean Withdraw(String nome, double amount) {
+
+    // Withdraw method
+    @Override
+    public boolean withdraw(String name, double amount) {
         JSONParser parser = new JSONParser();
 
         try {
-            String caminhoCompleto = "projeto_mes_um/src/database/db.json";
+            String fullPath = "projeto_mes_um/src/database/db.json";
+            JSONObject client = findClient(fullPath, name);
 
-            // Encontra o cliente pelo nome
-            JSONObject cliente = FindClient(caminhoCompleto, nome);
+            if (client != null) {
+                JSONObject privateInfo = (JSONObject) client.get("private_info");
+                double currentBalance = (double) privateInfo.get("balance");
 
-            if (cliente != null) {
-                // Atualiza o saldo
-                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
-                Double balance = (Double) privateInfo.get("balance");
-                double newBalance = balance - amount;
-                if (amount > balance){
-                    return false;
-                }
-                privateInfo.put("balance", newBalance);
+                if (amount <= currentBalance) {
+                    double newBalance = currentBalance - amount;
+                    privateInfo.put("balance", newBalance);
 
-                // Lê o conteúdo atual do arquivo JSON
-                Object obj = parser.parse(new FileReader(caminhoCompleto));
-                JSONArray clientes = (JSONArray) obj;
+                    Object obj = parser.parse(new FileReader(fullPath));
+                    JSONArray clients = (JSONArray) obj;
 
-                // Atualiza os dados do cliente em questão
-                for (Object clienteObj : clientes) {
-                    JSONObject clienteAtual = (JSONObject) clienteObj;
-                    JSONObject publicInfo = (JSONObject) clienteAtual.get("public_info");
-                    String nomeCliente = (String) publicInfo.get("name");
+                    for (Object clientObj : clients) {
+                        JSONObject currentClient = (JSONObject) clientObj;
+                        JSONObject publicInfo = (JSONObject) currentClient.get("public_info");
+                        String clientName = (String) publicInfo.get("name");
 
-                    if (nomeCliente.equalsIgnoreCase(nome)) {
-                        clienteAtual.put("private_info", privateInfo);
-                        break;
+                        if (clientName.equalsIgnoreCase(name)) {
+                            currentClient.put("private_info", privateInfo);
+                            break;
+                        }
                     }
-                }
 
-                // Salva o conteúdo atualizado de volta no arquivo JSON
-                try (FileWriter file = new FileWriter(caminhoCompleto)) {
-                    String formattedJson = formatJson(clientes.toString());
-                    file.write(formattedJson);
-                    file.flush();
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    try (FileWriter file = new FileWriter(fullPath)) {
+                        String formattedJson = formatJson(clients.toString());
+                        file.write(formattedJson);
+                        file.flush();
+                        return true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (IOException | org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
 
-        return false; // Retorna false se o cliente não for encontrado
+        return false;
     }
-    public static boolean Transfer(String nomeTarget, String nomeUsu, Double amount) {
-        String caminhoCompleto = "projeto_mes_um/src/database/db.json";
 
-        // Encontrar os dois clientes
-        JSONObject cliente = FindClient(caminhoCompleto, nomeUsu );
-        JSONObject clienteTarget = FindClient(caminhoCompleto, nomeTarget );
+    // transfer method
+    public boolean transfer(String targetName, String sourceName, Double amount) {
+        String fullPath = "projeto_mes_um/src/database/db.json";
+        JSONObject sourceClient = findClient(fullPath, sourceName);
+        JSONObject targetClient = findClient(fullPath, targetName);
 
-        if (cliente != null) {
-            if (clienteTarget != null){
-                // Atualiza o saldo
-                JSONObject privateInfo = (JSONObject) cliente.get("private_info");
-//                JSONObject privateInfoOfTarget = (JSONObject) clienteTarget.get("private_info");
-                Double balance = (Double) privateInfo.get("balance");
-//                Double balanceOfTarget = (Double) privateInfoOfTarget.get("balance");
+        if (sourceClient != null && targetClient != null) {
+            JSONObject sourcePrivateInfo = (JSONObject) sourceClient.get("private_info");
+            double sourceBalance = (double) sourcePrivateInfo.get("balance");
 
-                if (amount < balance){
-                    Withdraw(nomeUsu, amount);
-                    Deposit(nomeTarget, amount);
+            if (amount <= sourceBalance) {
+                boolean withdrawSuccess = withdraw(sourceName, amount);
+                boolean depositSuccess = deposit(targetName, amount);
+
+                if (withdrawSuccess && depositSuccess) {
                     return true;
+                } else {
+                    // Se a transferência falhar, reverter a operação
+                    deposit(sourceName, amount);
+                    withdraw(targetName, amount);
                 }
             }
         }
         return false;
     }
-    public static double SeeBalance(String nome) {
-        String caminhoCompleto = "projeto_mes_um/src/database/db.json";
 
-        // Encontra o cliente pelo nome
-        JSONObject cliente = FindClient(caminhoCompleto, nome);
-        if (cliente != null) {
-            // Atualiza o saldo
-            JSONObject privateInfo = (JSONObject) cliente.get("private_info");
-            Double balance = (Double) privateInfo.get("balance");
-            return balance;
+    // SeeBalance method
+    @Override
+    public double getBalance(String name) {
+        String fullPath = "projeto_mes_um/src/database/db.json";
+        JSONObject client = findClient(fullPath, name);
+
+        if (client != null) {
+            JSONObject privateInfo = (JSONObject) client.get("private_info");
+            return (double) privateInfo.get("balance");
         }
+
         return 0.0;
     }
 
-    //------------------------------------------//Client methods//-----------------------------------------------------//
-    @Override
-    public String toString() {
-        return """
-        Usuario:
-
-        First name: """ + this.getName() + """
-
-        Surname: """ + this.getSurname() + """
-
-        Age: """ + this.getAge() + """
-
-        Pass: """ + this.getPass();
-    }
-
-    public static JSONObject FindClient(String caminhoArquivo, String nome) {
+    // Métodos para manipular o banco de dados JSON relacionados ao cliente
+    @SuppressWarnings("unchecked")
+    public static void addClient(String caminhoArquivo, JSONObject novoCliente) {
         JSONParser parser = new JSONParser();
 
         try {
-            // Obter o caminho atual do diretório
             String diretorioAtual = new File(".").getCanonicalPath();
-            // Combinar o caminho do arquivo com o caminho atual
             String caminhoCompleto = diretorioAtual + "/" + caminhoArquivo;
 
-            // Tentar ler o arquivo JSON
             try (FileReader reader = new FileReader(caminhoCompleto)) {
-                // Parse do JSON
                 Object obj = parser.parse(reader);
-                JSONArray clientes = (JSONArray) obj;
 
-                // Percorre a lista de clientes
-                for (Object clienteObj : clientes) {
-                    JSONObject cliente = (JSONObject) clienteObj;
-                    JSONObject publicInfo = (JSONObject) cliente.get("public_info");
-                    String nomeCliente = (String) publicInfo.get("name");
+                if (obj == null) {
+                    JSONArray jsonArray = new JSONArray();
+                    jsonArray.add(novoCliente);
 
-                    // Verifica se o nome do cliente corresponde ao nome fornecido
-                    if (nomeCliente.equalsIgnoreCase(nome)) {
-                        return cliente; // Encontrou o cliente com o nome desejado
+                    try (FileWriter file = new FileWriter(caminhoCompleto)) {
+                        file.write(formatJson(jsonArray.toJSONString()));
+                        file.flush();
+                    }
+                } else {
+                    JSONArray jsonArray = (JSONArray) obj;
+                    jsonArray.add(novoCliente);
+
+                    try (FileWriter file = new FileWriter(caminhoCompleto)) {
+                        file.write(formatJson(jsonArray.toJSONString()));
+                        file.flush();
                     }
                 }
             } catch (IOException | org.json.simple.parser.ParseException e) {
-                e.printStackTrace(); // Trata exceções de leitura ou parsing
+                e.printStackTrace();
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Trata exceções de caminho de arquivo inválido
+            e.printStackTrace();
         }
-
-        return null; // Retorna null se o cliente não for encontrado
     }
 
-    public static JSONObject LoginMethod(String name, String pass){
-        JSONObject client = FindClient("projeto_mes_um/src/database/db.json", name);
+    public static JSONObject findClient(String caminhoArquivo, String nome) {
+        JSONParser parser = new JSONParser();
+
+        try {
+            String diretorioAtual = new File(".").getCanonicalPath();
+            String caminhoCompleto = diretorioAtual + "/" + caminhoArquivo;
+
+            try (FileReader reader = new FileReader(caminhoCompleto)) {
+                Object obj = parser.parse(reader);
+                JSONArray clientes = (JSONArray) obj;
+
+                for (Object clientObj : clientes) {
+                    JSONObject client = (JSONObject) clientObj;
+                    JSONObject publicInfo = (JSONObject) client.get("public_info");
+                    String clientName = (String) publicInfo.get("name");
+
+                    if (clientName.equalsIgnoreCase(nome)) {
+                        return client;
+                    }
+                }
+            } catch (IOException | org.json.simple.parser.ParseException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static JSONObject loginMethod(String name, String pass) {
+        JSONObject client = findClient("projeto_mes_um/src/database/db.json", name);
         return client;
     }
 
-    //------------------------------------------//JSON methods//-----------------------------------------------------//
-
+    // Métodos de apoio para formatação JSON
     public static String formatJson(String json) {
         int level = 0;
         StringBuilder formattedJson = new StringBuilder();
@@ -284,11 +300,25 @@ public abstract class Client implements DefaultMethods {
         }
         return formattedJson.toString();
     }
-
-    // Método para adicionar espaços de indentação JSON
     public static void appendSpaces(StringBuilder sb, int count) {
         for (int i = 0; i < count; i++) {
-            sb.append("  "); // Dois espaços por nível de indentação
+            sb.append("  ");
         }
     }
+
+    // Método para representar o objeto como uma "string"
+    @Override
+    public String toString() {
+        return """
+        Usuario:
+
+        First name: """ + this.getName() + """
+
+        Surname: """ + this.getSurname() + """
+
+        Age: """ + this.getAge() + """
+
+        Password: """ + this.getPassword();
+    }
+
 }

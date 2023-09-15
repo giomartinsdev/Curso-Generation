@@ -1,11 +1,9 @@
-import methods.AddClientOnDb;
-import methods.Client;
 import methods.User;
 import org.json.simple.JSONObject;
-
 import java.util.*;
 
-public class Main extends Client {
+public class Main {
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -13,6 +11,7 @@ public class Main extends Client {
 
         boolean loginMenu = true;
         while (loginMenu) {
+            // Menu de Login
             System.out.print(
                     """
                     **************************************************
@@ -26,15 +25,14 @@ public class Main extends Client {
                 case (1):
                     // Realiza o login
                     System.out.println("******************** LOGIN PLATFORM ********************");
-                    System.out.println("Please insert you name: ");
+                    System.out.println("Please insert your name: ");
                     scan.nextLine();
                     String nameForLogin = scan.nextLine();
-                    System.out.println("Please insert you pass: ");
+                    System.out.println("Please insert your pass: ");
                     String passForLogin = scan.nextLine();
-                    JSONObject clienteEncontrado = LoginMethod(nameForLogin, passForLogin);
+                    JSONObject clienteEncontrado = user.loginMethod(nameForLogin, passForLogin);
 
                     if (clienteEncontrado != null) {
-
                         // Extraia as informações do cliente e crie um novo usuário
                         JSONObject publicInfo = (JSONObject) clienteEncontrado.get("public_info");
                         JSONObject privateInfo = (JSONObject) clienteEncontrado.get("private_info");
@@ -44,6 +42,7 @@ public class Main extends Client {
                         String age = publicInfo.get("age").toString();
                         double balance = (double) privateInfo.get("balance");
                         String pass = (String) privateInfo.get("pass");
+
                         if (passForLogin.equals(pass)){
                             user = new User(name, surname, age, balance, pass);
                             loginMenu = false;
@@ -54,7 +53,6 @@ public class Main extends Client {
                             break;
                         }
                     }
-//                    break;
                 case (2):
                     // Registra um novo cliente
                     System.out.println("Insert your first name: ");
@@ -77,22 +75,22 @@ public class Main extends Client {
 
                     // Criando o obj publicInfo
                     JSONObject publicInfo = new JSONObject();
-                    // Inserindo as variaveis na correspondencia obj do publicjson
+                    // Inserindo as variáveis no correspondente obj do publicJson
                     publicInfo.put("name", name);
                     publicInfo.put("surname", surname);
                     publicInfo.put("age", age);
 
-                    // Crirando o obj privateInfo
+                    // Criando o obj privateInfo
                     JSONObject privateInfo = new JSONObject();
-                    // Inserindo as variaveis na correspondencia do obj privatejson
+                    // Inserindo as variáveis no correspondente obj privateJson
                     privateInfo.put("balance", balance);
                     privateInfo.put("pass", pass);
 
-                    // Inserindo as duas no OBJETO novo cliente
+                    // Inserindo os dois no OBJETO novoCliente
                     novoCliente.put("public_info", publicInfo);
                     novoCliente.put("private_info", privateInfo);
 
-                    AddClientOnDb.adClient("projeto_mes_um/src/database/db.json", novoCliente);
+                    user.addClient("projeto_mes_um/src/database/db.json", novoCliente);
 
                     user = new User(name, surname, age, balance, pass);
 
@@ -104,7 +102,7 @@ public class Main extends Client {
             }
         }
 
-        // Logged menu
+        // Menu logado
         boolean optionsMenu = true;
         while (optionsMenu) {
             System.out.println("**************** Hello! "+ user.getName()+" ******************");
@@ -112,62 +110,61 @@ public class Main extends Client {
             System.out.println("************** Select an option ******************");
             int optionsMenuInput = scan.nextInt();
 
-            // Options
+            // Opções
             switch (optionsMenuInput) {
                 case 1:
-                    // Show acc balance
-                    System.out.println("Hi! " + user.getName() + " Your balance is: " + SeeBalance(user.getName()) +"$");
+                    // Mostra o saldo da conta
+                    System.out.println("Hi! " + user.getName() + " Your balance is: " + user.getBalance(user.getName()) +"$");
                     break;
                 case 2:
-                    // Make a Deposit
-                    System.out.println("Input an value to be added: ");
+                    // Realiza um depósito
+                    System.out.println("Input a value to be added: ");
                     double balanceToPut = scan.nextDouble();
-                    boolean depositSuccess = Deposit(user.getName(), balanceToPut);
+                    boolean depositSuccess = user.deposit(user.getName(), balanceToPut);
                     if (depositSuccess) {
-                        System.out.println("Your Balance has an update of " + balanceToPut +" the new balance is: "+ SeeBalance(user.getName()) +"$");
+                        System.out.println("Your Balance has been updated by " + balanceToPut +" and the new balance is: "+ user.getBalance(user.getName()) +"$");
                     } else {
                         System.out.println("Failed to update balance. User not found.");
                     }
                     break;
                 case 3:
-                    // Make a withdraw
-                    System.out.println("Input an value to be removed: ");
+                    // Realiza um saque
+                    System.out.println("Input a value to be removed: ");
                     double balanceToBeRemoved = scan.nextDouble();
 
-                    // Logic of withdraws where are higher than the balance
-                    if (Withdraw(user.getName(),balanceToBeRemoved)){
-                        System.out.println("Your Balance has an update of " + balanceToBeRemoved +" the new balance is: "+ SeeBalance(user.getName()) +"$");
+                    // Lógica para saques maiores do que o saldo
+                    if (user.withdraw(user.getName(), balanceToBeRemoved)){
+                        System.out.println("Your Balance has been updated by " + balanceToBeRemoved +" and the new balance is: "+  user.getBalance(user.getName()) +"$");
                     }else{
                         System.out.println("The value of " + balanceToBeRemoved + " is higher than your balance ");
                     }
                     break;
                 case 4:
-                    // Make a withdraw
-                    System.out.println("Input the name of account target owner: ");
+                    // Realiza uma transferência
+                    System.out.println("Input the name of the target account owner: ");
                     scan.nextLine();
                     String nameTarget = scan.nextLine();
                     System.out.println("Input the amount of the transfer: ");
                     Double amount = scan.nextDouble();
-                    if (Transfer(nameTarget, user.getName(),amount)){
-                        System.out.println("Transfer done sucesfully!");
-
+                    if (user.transfer(nameTarget, user.getName(),amount)){
+                        System.out.println("Transfer done successfully!");
                     }else {
-                        System.out.println("An error as happened, please re-do the transfer.");
+                        System.out.println("An error has occurred, please try the transfer again.");
                     }
                     break;
                 case 5:
-                    // Printar infos
-                    System.out.println("Your data in our database is(name, surname, age, pass): ");
+                    // Exibe informações
+                    System.out.println("Your data in our database are (name, surname, age, pass): ");
 
-                    // Criar uma collection arraylist para poder mostrar os dados do usuario
+                    // Cria uma coleção ArrayList para exibir os dados do usuário
                     ArrayList<String> infos = new ArrayList<>();
-                    // Adiciona os dados na arralist utilizando os getters
+                    // Adiciona os dados ao ArrayList usando os getters
                     infos.add(user.getName());
                     infos.add(user.getSurname());
                     infos.add(user.getAge());
-                    infos.add(user.getPass());
+                    infos.add(user.getPassword());
 
-                    // Utiliza um iterator pra percorrer a lista printando o dado
+                    // Usa um iterator para percorrer a lista e imprimir os dados
                     Iterator<String> isetIterator = infos.iterator();
                     while(isetIterator.hasNext()){
                         System.out.println(isetIterator.next());

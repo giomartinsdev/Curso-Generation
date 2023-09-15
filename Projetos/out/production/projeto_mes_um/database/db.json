@@ -39,7 +39,7 @@
       "age":45
     },
     "private_info":{
-      "balance":0.0,
+      "balance":10.0,
       "pass":"jorge123"
     }
   },
@@ -61,8 +61,19 @@
       "age":"54"
     },
     "private_info":{
-      "balance":90.0,
+      "balance":80.0,
       "pass":"cl23"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Moura",
+      "name":"Machado",
+      "age":"87"
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"moura48"
     }
   }
 ]

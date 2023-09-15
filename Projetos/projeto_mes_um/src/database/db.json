@@ -6,8 +6,8 @@
       "age":27
     },
     "private_info":{
-      "balance":0.0,
-      "pass":"ksj172"
+      "balance":431.23,
+      "pass":"heliop123"
     }
   },
   {
@@ -17,7 +17,7 @@
       "age":19
     },
     "private_info":{
-      "balance":0.0,
+      "balance":573.90,
       "pass":"laris213"
     }
   },
@@ -28,30 +28,30 @@
       "age":18
     },
     "private_info":{
-      "balance":1.0,
+      "balance":2.67,
       "pass":"gio123"
     }
   },
   {
     "public_info":{
-      "surname":"théo",
+      "surname":"Théo",
       "name":"Jorge",
       "age":45
     },
     "private_info":{
-      "balance":10.0,
+      "balance":100.0,
       "pass":"jorge123"
     }
   },
   {
     "public_info":{
       "surname":"Thimoteo",
-      "name":"FLávio",
+      "name":"Flávio",
       "age":"25"
     },
     "private_info":{
-      "balance":0.0,
-      "pass":"flaviodoisdois"
+      "balance":321.50,
+      "pass":"flaviothi123"
     }
   },
   {
@@ -61,8 +61,19 @@
       "age":"54"
     },
     "private_info":{
-      "balance":80.0,
+      "balance":82.22,
       "pass":"cl23"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Moura",
+      "name":"Machado",
+      "age":"87"
+    },
+    "private_info":{
+      "balance":58.98,
+      "pass":"moura48"
     }
   }
 ]
