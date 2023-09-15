@@ -2,6 +2,8 @@ import methods.User;
 import org.json.simple.JSONObject;
 import java.util.*;
 
+import static methods.Client.LoginMethod;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -30,7 +32,7 @@ public class Main {
                     String nameForLogin = scan.nextLine();
                     System.out.println("Please insert your pass: ");
                     String passForLogin = scan.nextLine();
-                    JSONObject clienteEncontrado = user.loginMethod(nameForLogin, passForLogin);
+                    JSONObject clienteEncontrado = LoginMethod(nameForLogin, passForLogin);
 
                     if (clienteEncontrado != null) {
                         // Extraia as informações do cliente e crie um novo usuário
@@ -114,15 +116,15 @@ public class Main {
             switch (optionsMenuInput) {
                 case 1:
                     // Mostra o saldo da conta
-                    System.out.println("Hi! " + user.getName() + " Your balance is: " + user.getBalance(user.getName()) +"$");
+                    System.out.println("Hi! " + user.getName() + " Your balance is: " + user.SeeBalance(user.getName()) +"$");
                     break;
                 case 2:
                     // Realiza um depósito
                     System.out.println("Input a value to be added: ");
                     double balanceToPut = scan.nextDouble();
-                    boolean depositSuccess = user.deposit(user.getName(), balanceToPut);
+                    boolean depositSuccess = user.Deposit(user.getName(), balanceToPut);
                     if (depositSuccess) {
-                        System.out.println("Your Balance has been updated by " + balanceToPut +" and the new balance is: "+ user.getBalance(user.getName()) +"$");
+                        System.out.println("Your Balance has been updated by " + balanceToPut +" and the new balance is: "+ user.SeeBalance(user.getName()) +"$");
                     } else {
                         System.out.println("Failed to update balance. User not found.");
                     }
@@ -133,8 +135,8 @@ public class Main {
                     double balanceToBeRemoved = scan.nextDouble();
 
                     // Lógica para saques maiores do que o saldo
-                    if (user.withdraw(user.getName(), balanceToBeRemoved)){
-                        System.out.println("Your Balance has been updated by " + balanceToBeRemoved +" and the new balance is: "+  user.getBalance(user.getName()) +"$");
+                    if (user.Withdraw(user.getName(), balanceToBeRemoved)){
+                        System.out.println("Your Balance has been updated by " + balanceToBeRemoved +" and the new balance is: "+  user.SeeBalance(user.getName()) +"$");
                     }else{
                         System.out.println("The value of " + balanceToBeRemoved + " is higher than your balance ");
                     }
@@ -144,12 +146,12 @@ public class Main {
                     System.out.println("Input the name of the target account owner: ");
                     scan.nextLine();
                     String nameTarget = scan.nextLine();
-                    System.out.println("Input the amount of the transfer: ");
+                    System.out.println("Input the amount of the Transfer: ");
                     Double amount = scan.nextDouble();
-                    if (user.transfer(nameTarget, user.getName(),amount)){
+                    if (user.Transfer(nameTarget, user.getName(),amount)){
                         System.out.println("Transfer done successfully!");
                     }else {
-                        System.out.println("An error has occurred, please try the transfer again.");
+                        System.out.println("An error has occurred, please try the Transfer again.");
                     }
                     break;
                 case 5:
@@ -162,7 +164,7 @@ public class Main {
                     infos.add(user.getName());
                     infos.add(user.getSurname());
                     infos.add(user.getAge());
-                    infos.add(user.getPassword());
+                    infos.add(user.getPass());
 
                     // Usa um iterator para percorrer a lista e imprimir os dados
                     Iterator<String> isetIterator = infos.iterator();

@@ -3,12 +3,12 @@ package methods;
 public interface DefaultMethods {
 
     // Balance Methods
-    boolean deposit(String customerName, double amount);
+    boolean Deposit(String customerName, double amount);
 
-    boolean withdraw(String customerName, double amount);
+    boolean Withdraw(String customerName, double amount);
 
-    boolean transfer(String targetName, String sourceName, Double amount);
+    boolean Transfer(String targetName, String sourceName, Double amount);
 
-    double getBalance(String customerName);
+    double SeeBalance(String customerName);
 
 }

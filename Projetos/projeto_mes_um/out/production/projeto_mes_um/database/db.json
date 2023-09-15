@@ -17,7 +17,7 @@
       "age":19
     },
     "private_info":{
-      "balance":573.9,
+      "balance":573.90,
       "pass":"laris213"
     }
   },
@@ -50,7 +50,7 @@
       "age":"25"
     },
     "private_info":{
-      "balance":321.5,
+      "balance":321.50,
       "pass":"flaviothi123"
     }
   },
@@ -74,28 +74,6 @@
     "private_info":{
       "balance":58.98,
       "pass":"moura48"
-    }
-  },
-  {
-    "public_info":{
-      "surname":"Barreto",
-      "name":"Raquel",
-      "age":"22"
-    },
-    "private_info":{
-      "balance":0.0,
-      "pass":"raq123"
-    }
-  },
-  {
-    "public_info":{
-      "surname":"Assis",
-      "name":"Gabriel",
-      "age":"21"
-    },
-    "private_info":{
-      "balance":10.0,
-      "pass":"assis21"
     }
   }
 ]
