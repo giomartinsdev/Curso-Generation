@@ -157,20 +157,17 @@ public class Main {
                 case 5:
                     // Exibe informações
                     System.out.println("Your data in our database are (name, surname, age, pass): ");
-
                     // Cria uma coleção ArrayList para exibir os dados do usuário
                     ArrayList<String> infos = new ArrayList<>();
-                    // Adiciona os dados ao ArrayList usando os getters
+                    infos.stream();
+                    // Adiciona o usuario atual na arraylist
                     infos.add(user.getName());
                     infos.add(user.getSurname());
                     infos.add(user.getAge());
                     infos.add(user.getPass());
 
-                    // Usa um iterator para percorrer a lista e imprimir os dados
-                    Iterator<String> isetIterator = infos.iterator();
-                    while(isetIterator.hasNext()){
-                        System.out.println(isetIterator.next());
-                    }
+                    //printa todas as inforacoes do usuario
+                    infos.forEach(x -> System.out.println(x));
                     break;
                 case 0:
                     System.out.println("Exiting the application");
