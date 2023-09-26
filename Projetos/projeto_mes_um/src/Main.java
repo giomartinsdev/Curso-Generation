@@ -1,12 +1,15 @@
 import methods.User;
 import org.json.simple.JSONObject;
+
+import java.io.UncheckedIOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static methods.Client.LoginMethod;
 
 public class Main {
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         User user = null; // Inicializa um objeto "User" que será usado para representar o usuário logado
@@ -35,7 +38,7 @@ public class Main {
                     JSONObject clienteEncontrado = LoginMethod(nameForLogin, passForLogin);
 
                     if (clienteEncontrado != null) {
-                        // Extraia as informações do cliente e crie um novo usuário
+                        // Extraia as informações do cliente e crie um usuário
                         JSONObject publicInfo = (JSONObject) clienteEncontrado.get("public_info");
                         JSONObject privateInfo = (JSONObject) clienteEncontrado.get("private_info");
 
@@ -48,12 +51,11 @@ public class Main {
                         if (passForLogin.equals(pass)){
                             user = new User(name, surname, age, balance, pass);
                             loginMenu = false;
-                            break;
                         }
                         else{
                             System.out.println("A senha que você digitou está errada, faça login novamente.");
-                            break;
                         }
+                        break;
                     }
                 case (2):
                     // Registra um novo cliente
@@ -72,7 +74,7 @@ public class Main {
                     System.out.println("Insert pass: ");
                     String pass = scan.nextLine();
 
-                    // Criando um novo objeto JSON para o novo cliente
+                    // Criando um objeto JSON para o novo cliente
                     JSONObject novoCliente = new JSONObject();
 
                     // Criando o obj publicInfo
@@ -159,14 +161,15 @@ public class Main {
                     System.out.println("Your data in our database are (name, surname, age, pass): ");
                     // Cria uma coleção ArrayList para exibir os dados do usuário
                     ArrayList<String> infos = new ArrayList<>();
-                    infos.stream();
                     // Adiciona o usuario atual na arraylist
                     infos.add(user.getName());
                     infos.add(user.getSurname());
                     infos.add(user.getAge());
                     infos.add(user.getPass());
 
+
                     //printa todas as inforacoes do usuario
+                    Stream<String> dados = infos.stream();
                     infos.forEach(x -> System.out.println(x));
                     break;
                 case 0:

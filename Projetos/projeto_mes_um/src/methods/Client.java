@@ -3,7 +3,6 @@ package methods;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -182,7 +181,7 @@ public abstract class Client implements DefaultMethods {
                 JSONObject privateInfo = (JSONObject) cliente.get("private_info");
                 Double balance = (Double) privateInfo.get("balance");
 
-                if (amount < balance){
+                if (amount <= balance){
                     Withdraw(nomeUsu, amount);
                     Deposit(nomeTarget, amount);
                     return true;

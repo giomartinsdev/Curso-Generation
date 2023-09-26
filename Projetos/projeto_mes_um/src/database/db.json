@@ -28,7 +28,7 @@
       "age":18
     },
     "private_info":{
-      "balance":100.66,
+      "balance":105.66,
       "pass":"gio123"
     }
   },
@@ -94,8 +94,41 @@
       "age":"21"
     },
     "private_info":{
-      "balance":10.0,
+      "balance":100.0,
       "pass":"assis21"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Ferreira",
+      "name":"Jonas",
+      "age":"23"
+    },
+    "private_info":{
+      "balance":111.0,
+      "pass":"jonasjo12"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Manager",
+      "name":"TesteProduto",
+      "age":"99"
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"teste123"
+    }
+  },
+  {
+    "public_info":{
+      "surname":"Liza",
+      "name":"Liza",
+      "age":"24"
+    },
+    "private_info":{
+      "balance":0.0,
+      "pass":"liza123"
     }
   }
 ]
